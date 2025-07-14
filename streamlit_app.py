@@ -1,6 +1,6 @@
 # Importar pacotes Python
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+# REMOVIDO: from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 
 # Escrever diretamente no aplicativo
@@ -16,13 +16,16 @@ name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be:', name_on_order)
 
 # Adicionar a lista de opções de frutas, focando apenas na coluna FRUIT_NAME
-session = get_active_session()
+# NOVO: Configuração de conexão para ambiente SnIS
+cnx = st.connection("snowflake") # Adicionada linha de conexão
+session = cnx.session() # Alterada linha de sessão
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 # Comentar a linha que mostra o DataFrame na página
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
-# Adicionar o multiselect com limite de seleção
+# Adicionar o multiselect
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:',
     my_dataframe,
