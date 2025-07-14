@@ -2,6 +2,7 @@
 import streamlit as st
 # REMOVIDO: from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests
 
 # Escrever diretamente no aplicativo
 st.title("Customize Your Smoothie!🥤")
